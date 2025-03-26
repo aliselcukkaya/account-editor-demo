@@ -13,33 +13,28 @@ import (
 	"gorm.io/gorm"
 )
 
-// UserStatus represents the user status response
 type UserStatus struct {
 	IsActive bool `json:"is_active"`
 	IsAdmin  bool `json:"is_admin"`
 }
 
-// TokenResponse represents the token response
 type TokenResponse struct {
 	AccessToken string `json:"access_token"`
 	TokenType   string `json:"token_type"`
 	Username    string `json:"username"`
 }
 
-// LoginRequest represents the login request
 type LoginRequest struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
 }
 
-// CreateUserRequest represents the request to create a new user by admin
 type CreateUserRequest struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
 	IsAdmin  bool   `json:"is_admin"`
 }
 
-// UpdateUserRequest represents the request to update a user
 type UpdateUserRequest struct {
 	Password string `json:"password"`
 	IsAdmin  bool   `json:"is_admin"`

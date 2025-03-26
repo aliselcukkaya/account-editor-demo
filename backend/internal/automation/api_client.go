@@ -66,9 +66,6 @@ type Line struct {
 }
 
 func NewAPIClient(baseURL, apiKey, authUser string) *APIClient {
-	// Initialize random seed for simulations
-	rand.Seed(time.Now().UnixNano())
-
 	return &APIClient{
 		BaseURL:    baseURL,
 		APIKey:     apiKey,
@@ -88,7 +85,7 @@ func isHTMLResponse(body []byte) bool {
 }
 
 // formatConnectionError creates a user-friendly error message for connection issues
-func formatConnectionError(url string, status int) string {
+func formatConnectionError(status int) string {
 	if status == 404 {
 		return "The panel URL is incorrect or the service could not be found. Please check your settings."
 	} else if status >= 500 {
@@ -132,7 +129,7 @@ func (c *APIClient) CreateAccount(req CreateAccountRequest) (*CreateAccountRespo
 
 		// Check if response is HTML
 		if isHTMLResponse(bodyBytes) {
-			return nil, fmt.Errorf("connection error: %s", formatConnectionError(c.BaseURL, resp.StatusCode))
+			return nil, fmt.Errorf("connection error: %s", formatConnectionError(resp.StatusCode))
 		}
 
 		// Try to decode JSON if it looks like JSON
@@ -181,7 +178,7 @@ func (c *APIClient) FindAccount(username string) ([]Line, error) {
 
 		// Check if response is HTML
 		if isHTMLResponse(bodyBytes) {
-			return nil, fmt.Errorf("connection error: %s", formatConnectionError(c.BaseURL, resp.StatusCode))
+			return nil, fmt.Errorf("connection error: %s", formatConnectionError(resp.StatusCode))
 		}
 
 		// Try to decode JSON if it looks like JSON
@@ -236,7 +233,7 @@ func (c *APIClient) ExtendPackage(lineID string, req ExtendPackageRequest) (*Ext
 
 		// Check if response is HTML
 		if isHTMLResponse(bodyBytes) {
-			return nil, fmt.Errorf("connection error: %s", formatConnectionError(c.BaseURL, resp.StatusCode))
+			return nil, fmt.Errorf("connection error: %s", formatConnectionError(resp.StatusCode))
 		}
 
 		// Try to decode JSON if it looks like JSON
@@ -298,12 +295,8 @@ func (c *APIClient) SimulateCreateAccount(req CreateAccountRequest) (*CreateAcco
 
 // SimulateFindAccount returns mock data for a find account request
 func (c *APIClient) SimulateFindAccount(username string) ([]Line, error) {
-	// For simulation, return 1-3 mock accounts
-	count := 1 + rand.Intn(3)
-	if username != "" {
-		// If username is provided, return just one account with that username
-		count = 1
-	}
+	// For simulation, return 1 mock account
+	count := 1
 
 	lines := make([]Line, count)
 

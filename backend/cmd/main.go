@@ -14,13 +14,12 @@ import (
 	"gorm.io/gorm"
 )
 
-// createDefaultAdminUser creates a default admin user if no users exist in the database
+// Creates a default admin user if no users exist in the database
 func createDefaultAdminUser(db *gorm.DB) {
 	var count int64
 	db.Model(&models.User{}).Count(&count)
 
 	if count == 0 {
-		// Create default admin user
 		hashedPassword, err := utils.HashPassword("admin")
 		if err != nil {
 			log.Fatal("Failed to hash admin password:", err)

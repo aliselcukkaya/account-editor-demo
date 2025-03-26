@@ -43,15 +43,3 @@ func TrustedHosts() gin.HandlerFunc {
 		c.Next()
 	}
 }
-
-// HandleForwardedHeaders handles x-forwarded headers
-func HandleForwardedHeaders() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		if c.GetHeader("X-Forwarded-Proto") != "" {
-			// In Go, we can't directly modify the request scheme,
-			// but we can use the header value in application logic if needed
-			c.Set("scheme", c.GetHeader("X-Forwarded-Proto"))
-		}
-		c.Next()
-	}
-}

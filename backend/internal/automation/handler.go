@@ -31,7 +31,6 @@ type SettingsRequest struct {
 	AuthUser   string `json:"auth_user" binding:"required"`
 }
 
-// CreateTask creates a new automation task
 func CreateTask(c *gin.Context) {
 	user, exists := c.Get("user")
 	if !exists {
