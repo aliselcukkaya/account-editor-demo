@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/aliselcukkaya/web-automation/internal/models"
-	"github.com/aliselcukkaya/web-automation/pkg/utils"
+	"github.com/aliselcukkaya/account-editor/internal/models"
+	"github.com/aliselcukkaya/account-editor/pkg/utils"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -14,7 +14,7 @@ import (
 func AuthRequired() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
-		
+
 		if authHeader == "" {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 				"error": "Authorization header is required",
@@ -106,4 +106,4 @@ func AdminRequired() gin.HandlerFunc {
 
 		c.Next()
 	}
-} 
+}

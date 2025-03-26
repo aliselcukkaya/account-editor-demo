@@ -3,12 +3,12 @@ package main
 import (
 	"log"
 
-	"github.com/aliselcukkaya/web-automation/internal/auth"
-	"github.com/aliselcukkaya/web-automation/internal/automation"
-	"github.com/aliselcukkaya/web-automation/internal/database"
-	"github.com/aliselcukkaya/web-automation/internal/middleware"
-	"github.com/aliselcukkaya/web-automation/internal/models"
-	"github.com/aliselcukkaya/web-automation/pkg/utils"
+	"github.com/aliselcukkaya/account-editor/internal/auth"
+	"github.com/aliselcukkaya/account-editor/internal/automation"
+	"github.com/aliselcukkaya/account-editor/internal/database"
+	"github.com/aliselcukkaya/account-editor/internal/middleware"
+	"github.com/aliselcukkaya/account-editor/internal/models"
+	"github.com/aliselcukkaya/account-editor/pkg/utils"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/time/rate"
 	"gorm.io/gorm"
@@ -63,7 +63,7 @@ func main() {
 	// Root route
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"message":  "Welcome to Web Automation API",
+			"message":  "Welcome to Account Editor API",
 			"docs_url": "/docs",
 			"version":  "1.0.0",
 		})

@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/aliselcukkaya/web-automation/internal/models"
+	"github.com/aliselcukkaya/account-editor/internal/models"
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"

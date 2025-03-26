@@ -1,4 +1,4 @@
-module github.com/aliselcukkaya/web-automation
+module github.com/aliselcukkaya/account-editor
 
 go 1.24.1
 

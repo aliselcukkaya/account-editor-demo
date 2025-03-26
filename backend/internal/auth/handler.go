@@ -6,9 +6,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/aliselcukkaya/web-automation/internal/database"
-	"github.com/aliselcukkaya/web-automation/internal/models"
-	"github.com/aliselcukkaya/web-automation/pkg/utils"
+	"github.com/aliselcukkaya/account-editor/internal/database"
+	"github.com/aliselcukkaya/account-editor/internal/models"
+	"github.com/aliselcukkaya/account-editor/pkg/utils"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )

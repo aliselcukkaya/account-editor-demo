@@ -10,8 +10,8 @@ import (
 
 	"log"
 
-	"github.com/aliselcukkaya/web-automation/internal/database"
-	"github.com/aliselcukkaya/web-automation/internal/models"
+	"github.com/aliselcukkaya/account-editor/internal/database"
+	"github.com/aliselcukkaya/account-editor/internal/models"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"gorm.io/gorm"

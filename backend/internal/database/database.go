@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/aliselcukkaya/web-automation/internal/models"
+	"github.com/aliselcukkaya/account-editor/internal/models"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
