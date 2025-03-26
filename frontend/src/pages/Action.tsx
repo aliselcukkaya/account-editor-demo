@@ -81,22 +81,26 @@ interface UserSettings {
 	auth_user: string;
 }
 
-// Add a safe JSON parsing function with HTML detection
+const containsHTML = (str: string | null | undefined): boolean => {
+	if (!str) return false;
+	return str.includes('<!DOCTYPE') || 
+	       str.includes('<html') || 
+	       str.includes('<body') ||
+	       str.includes('<head');
+};
+
+const containsHTMLOrNonJSONError = (str: string | null | undefined): boolean => {
+	if (!str) return false;
+	return containsHTML(str) || str.includes('non-JSON error response');
+};
+
 const safeParseJSON = (jsonString: string): any => {
 	if (!jsonString) return {};
-	
-	// First, check if the string contains HTML content
-	const containsHTML = (str: string): boolean => {
-		return str.includes('<!DOCTYPE') || 
-			   str.includes('<html') || 
-			   str.includes('<body') ||
-			   str.includes('<head');
-	};
 	
 	// If the string already looks like an object and has error property with HTML
 	if (typeof jsonString === 'object') {
 		const objStr = JSON.stringify(jsonString);
-		if (objStr.includes('<!DOCTYPE') || objStr.includes('<html')) {
+		if (containsHTML(objStr)) {
 			return {
 				success: false,
 				error: 'The panel URL appears to be incorrect. Please check your settings.'
@@ -245,9 +249,7 @@ const Action: React.FC = () => {
 						} else {
 							// Check if error contains HTML or non-JSON error message
 							const errorMsg = response.error || errorMessage;
-							if (errorMsg.includes('<!DOCTYPE') || 
-								errorMsg.includes('<html') || 
-								errorMsg.includes('non-JSON error response')) {
+							if (containsHTMLOrNonJSONError(errorMsg)) {
 								setError('The panel URL appears to be incorrect. Please check your settings.');
 							} else {
 								setError(errorMsg);
@@ -273,9 +275,7 @@ const Action: React.FC = () => {
 						
 						// Check if error contains HTML or non-JSON error message
 						const errorMsg = response.error || 'Task failed';
-						if (errorMsg.includes('<!DOCTYPE') || 
-							errorMsg.includes('<html') || 
-							errorMsg.includes('non-JSON error response')) {
+						if (containsHTMLOrNonJSONError(errorMsg)) {
 							setError('The panel URL appears to be incorrect. Please check your settings.');
 						} else {
 							setError(errorMsg);
@@ -289,9 +289,7 @@ const Action: React.FC = () => {
 				console.error(`Error polling task ${taskId}:`, error);
 				if (error instanceof Error) {
 					const errorMsg = error.message;
-					if (errorMsg.includes('<!DOCTYPE') || 
-						errorMsg.includes('<html') || 
-						errorMsg.includes('non-JSON error response')) {
+					if (containsHTMLOrNonJSONError(errorMsg)) {
 						setError('The panel URL appears to be incorrect. Please check your settings.');
 					} else {
 						setError(`Error checking task status: ${errorMsg}`);
@@ -476,10 +474,7 @@ const Action: React.FC = () => {
 		console.log('Handling API error:', err);
 		
 		// Check if this is an HTML response or non-JSON error
-		const isHtmlError = typeof err.message === 'string' && (
-			err.message.includes('non-JSON error response') || 
-			err.message.includes('<!DOCTYPE')
-		);
+		const isHtmlError = typeof err.message === 'string' && containsHTMLOrNonJSONError(err.message);
 		
 		if (isHtmlError) {
 			// This is likely a wrong URL error
